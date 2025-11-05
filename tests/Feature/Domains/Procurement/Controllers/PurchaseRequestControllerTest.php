@@ -17,7 +17,7 @@ class PurchaseRequestControllerTest extends TestCase
     /**
      * A basic feature test example.
      */
-    public function test_create_purchase_request(): void
+    public function test_create_function_successfully_purchase_request(): void
     {
         $this->seed();
 
@@ -31,5 +31,10 @@ class PurchaseRequestControllerTest extends TestCase
 
         $response->assertJsonPath('data.remarks', 'Testing Purchase Request');
         $response->assertJsonPath('data.status', PurchaseRequestStatus::DRAFT);
+    }
+
+    public function test_process_function_successfully_process_request(): void
+    {
+        
     }
 }

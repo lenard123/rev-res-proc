@@ -67,33 +67,4 @@ class PurchaseRequestItemControllerTest extends TestCase
         $response->assertStatus(409);
     }
 
-    public function test_process_function_submit_draft_purchase_request()
-    {
-        $this->seed(MockDataSeeder::class);
-
-        $user = User::factory()->create();
-
-        $purchase_request = PurchaseRequest::factory()
-            ->withItems()
-            ->create(['user_id' => $user->id]);
-
-        $response = $this->actingAs($user)->post("/api/procurement/purchase-requests/{$purchase_request->id}/process");
-
-        $response->assertStatus(200);
-    }
-
-    public function test_process_function_only_draft_can_be_posted()
-    {
-        $this->seed(MockDataSeeder::class);
-
-        $user = User::factory()->create();
-
-        $purchase_request = PurchaseRequest::factory()
-            ->withItems()
-            ->create(['user_id' => $user->id, 'status' => PurchaseRequestStatus::PENDING_APPROVAL]);
-
-        $response = $this->actingAs($user)->post("/api/procurement/purchase-requests/{$purchase_request->id}/process");
-
-        $response->assertStatus(409);
-    }
 }

@@ -4,6 +4,7 @@ namespace Tests\Feature\Domains\Procurement\Controllers;
 
 use App\Domains\Catalog\Models\Item;
 use App\Domains\Core\Models\User;
+use App\Domains\Procurement\Models\PurchaseRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -19,15 +20,15 @@ class PurchaseRequestControllerTest extends TestCase
     {
         $this->seed();
 
-        $item = Item::factory()->create();
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)->post('/api/procurement/purchase-requests', [
-            'purchase_request_items' => [
-                ['item_id' => $item->id, 'quantity' => 10]
-            ]
+            'remarks' => 'Testing Purchase Request'
         ]);
 
         $response->assertStatus(201);
+
+        $response->assertJsonPath('data.remarks', 'Testing Purchase Request');
+        $response->assertJsonPath('data.status', PurchaseRequest::STATUS_DRAFT);
     }
 }

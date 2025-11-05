@@ -3,6 +3,7 @@
 use App\Domains\Attribute\Controllers\AttributeController;
 use App\Domains\Catalog\Controllers\ItemController;
 use App\Domains\Procurement\Controllers\PurchaseRequestController;
+use App\Domains\Procurement\Controllers\PurchaseRequestItemController;
 use App\Domains\Supplier\Controllers\SupplierController;
 use App\Domains\Supplier\Controllers\SupplierItemController;
 use Illuminate\Support\Facades\Route;
@@ -17,6 +18,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::group(['prefix' => '/procurement'], function () {
         Route::post('/suppliers', [SupplierController::class, 'store']);
         Route::post('/suppliers/{supplier}/items', [SupplierItemController::class, 'store']);
+
         Route::post('/purchase-requests', [PurchaseRequestController::class, 'store']);
+        Route::put('/purchase-requests/{purchaseRequest}/items', [PurchaseRequestItemController::class, 'update']);
     });
 });

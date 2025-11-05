@@ -33,4 +33,50 @@ class AttributeControllerTest extends TestCase
             'code' => $code,
         ]);
     }
+
+    public function test_cannot_create_attribute_without_authentication(): void
+    {
+        $response = $this->postJson('/api/catalog/attributes', [
+            'code' => Str::uuid()->toString(),
+            'name' => fake()->text(),
+            'type' => Attribute::TYPE_TEXT,
+        ]);
+
+        $response->assertStatus(401);
+    }
+
+    public function test_cannot_create_attribute_with_duplicate_code(): void
+    {
+        $code = Str::uuid()->toString();
+
+        Attribute::create([
+            'code' => $code,
+            'name' => 'Existing Attribute',
+            'type' => Attribute::TYPE_TEXT,
+        ]);
+
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->postJson('/api/catalog/attributes', [
+            'code' => $code,
+            'name' => fake()->text(),
+            'type' => Attribute::TYPE_TEXT,
+        ]);
+
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors(['code']);
+    }
+
+    public function test_cannot_create_attribute_without_required_fields(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->postJson('/api/catalog/attributes', [
+            'code' => Str::uuid()->toString(),
+            'type' => Attribute::TYPE_TEXT,
+        ]);
+
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors(['name']);
+    }
 }

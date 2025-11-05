@@ -19,10 +19,12 @@ return new class extends Migration
             $table->text('description_override')->nullable()->comment('Sometimes your catalog name is "Polypropylene Container 32L" but vendor calls it "STORAGE BIN GRAY 32L HD". You want to store how THEY label it.');
             $table->decimal('conversion_factor_to_item_uom', 15, 6)->comment("how many of the item's base UOM are in 1 of this offer's UOM");
             $table->decimal('last_quoted_price', 15, 4)->comment("Most recent agreed or quoted unit price.");
-            $table->decimal('min_order_qty', 15, 4);
+            $table->char('currency', 3)->default('PHP');
+            $table->decimal('min_order_qty', 15, 4)->default(1);
             $table->boolean('is_default');
             $table->string('status')->default('active');
             $table->timestamps();
+            $table->unique(['supplier_item_id', 'uom_id']);
         });
     }
 

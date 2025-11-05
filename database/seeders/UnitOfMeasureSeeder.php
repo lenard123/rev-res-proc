@@ -14,8 +14,8 @@ class UnitOfMeasureSeeder extends Seeder
     public function run(): void
     {
         $unit_of_measures = [
-            ['name' => 'Piece', 'code' => UnitOfMeasure::CODE_PC, 'symbol' => 'pc'],
-            ['name' => 'Box', 'code' => UnitOfMeasure::CODE_BOX, 'symbol' => 'box'],
+            ['id' => 1, 'name' => 'Piece', 'code' => UnitOfMeasure::CODE_PC, 'symbol' => 'pc'],
+            ['id' => 2,'name' => 'Box', 'code' => UnitOfMeasure::CODE_BOX, 'symbol' => 'box'],
         ];
 
         foreach ($unit_of_measures as $row) {

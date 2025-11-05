@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('supplier_id')->constrained('suppliers');
             $table->foreignId('item_id')->constrained('items');
-            $table->string('supplier_sku')->nullable();
             $table->string('status')->default('active');
             $table->text("notes")->nullable();
+            $table->timestamps();
             $table->unique(['supplier_id', 'item_id']);
         });
     }

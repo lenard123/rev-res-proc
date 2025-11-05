@@ -8,42 +8,39 @@ use App\Domains\Catalog\DTOs\CreateItemDTO;
 use App\Domains\Attribute\Models\Attribute;
 use App\Domains\Attribute\Models\AttributeFamily;
 use App\Domains\Catalog\Models\Item;
+use App\Domains\Catalog\Models\ItemAttribute;
+use App\Domains\Supplier\Actions\AddSupplierItemAction;
 use App\Domains\Supplier\Actions\CreateSupplierAction;
+use App\Domains\Supplier\Actions\SyncSupplierItemsAction;
+use App\Domains\Supplier\Models\Supplier;
+use App\Domains\Supplier\Models\SupplierItem;
+use App\Domains\Supplier\Models\SupplierItemOffer;
 use Illuminate\Database\Seeder;
+use Str;
 
 class MockDataSeeder extends Seeder
 {
+
+    const ITEM_S_BLACK_ID = 2;
+    const ITEM_M_RED_ID = 3;
+    const ITEM_S_RED_ID = 4;
+    const ITEM_L_BLACK_ID = 5;
+
+    const SUPPLIER_PILOT_ID = 1;
+    const SUPPLIER_PENTEL_ID = 2;
+
+    const SUPPLIER_ITEM_PILOT_S_BLACK_ID = 1;
+    const SUPPLIER_ITEM_PILOT_M_RED_ID = 2;
+    const SUPPLIER_ITEM_PILOT_S_RED_ID = 3;
+    const SUPPLIER_ITEM_PENTEL_L_BLACK_ID = 4;
+
     public function __construct(
         private CreateSupplierAction $createSupplier,
+        private SyncSupplierItemsAction $syncSupplierItems,
+        private AddSupplierItemAction $addSupplierItem,
     ) {}
 
-    private function getOptionId(Attribute $attribute, $value)
-    {
-        return $attribute->options()->where('name', $value)->value('id');
-    }
 
-    /**
-     * Summary of searchItem
-     * @param AttributeDTO[] $attributes
-     * @return Item
-     */
-    private function searchItem(int $parent_id, array $attributes):Item
-    {
-        return Item::query()
-            ->where('type', Item::TYPE_SIMPLE)
-            ->where('parent_id', $parent_id)
-            ->where(function ($itemQuery) use ($attributes) {
-                foreach ($attributes as $attributeDTO) {
-                    $itemQuery->whereHas('attributes', function ($sub) use ($attributeDTO) {
-                        $sub->where(
-                            $attributeDTO->attribute()->getValuesColumn(),
-                            $attributeDTO->value
-                        );
-                    });
-                }
-            })
-            ->firstOrFail();
-    }
 
     /**
      * Run the database seeds.
@@ -52,59 +49,272 @@ class MockDataSeeder extends Seeder
     {
         $this->call(DatabaseSeeder::class);
 
-        $color = Attribute::where('code', Attribute::CODE_COLOR)->first();
-        $size = Attribute::where('code', Attribute::CODE_SIZE)->first();
-
-        $supplier_pilot = $this->createSupplier->handle(['name' => "Pilot"]);
-        $supplier_pentel = $this->createSupplier->handle(['name' => "Pentel"]);
-
-        $supplier_pilot_items_data = [
-            'small_black' => [Attribute::CODE_SIZE => $this->getOptionId($size, 'S'), Attribute::CODE_COLOR => $this->getOptionId($color, 'Black')],
-            'small_red' => [Attribute::CODE_SIZE => $this->getOptionId($size, 'S'), Attribute::CODE_COLOR => $this->getOptionId($color, 'Red')],
-            'medium_red' => [Attribute::CODE_SIZE => $this->getOptionId($size, 'M'), Attribute::CODE_COLOR => $this->getOptionId($color, 'Red')],
-        ];
-        
-        $supplier_pentel_items = [
-            [Attribute::CODE_SIZE => $this->getOptionId($size, 'L'), Attribute::CODE_COLOR => $this->getOptionId($color, 'Black')],
-        ];
-
-        // Items Data
-        $item_data =  [
-            'sku' => 'ITM-0001', 
-            'type' => Item::TYPE_CONFIGURABLE,
-            'attributes' => [
-                Attribute::CODE_NAME => 'Pentel Pen',
+        Item::insert([
+            [
+                'id' => 1,
+                'attribute_family_id' => 1,
+                'parent_id' => null,
+                'base_uom_id' => 1,
+                'sku' => 'ITEM-0001',
+                'type' => Item::TYPE_CONFIGURABLE,
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
-            'configurable_attributes' => [
-                Attribute::CODE_COLOR => $color->options()->whereIn('name', ['Red', 'Black'])->pluck('id')->toArray(),
-                Attribute::CODE_SIZE => $size->options()->whereIn('name', ['S', 'M', 'L'])->pluck('id')->toArray(),
+            [
+                'id' => self::ITEM_S_BLACK_ID,
+                'attribute_family_id' => 1,
+                'parent_id' => 1,
+                'base_uom_id' => 1,
+                'sku' => 'ITEM-0001-S-BLACK',
+                'type' => Item::TYPE_SIMPLE,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id' => self::ITEM_M_RED_ID,
+                'attribute_family_id' => 1,
+                'parent_id' => 1,
+                'base_uom_id' => 1,
+                'sku' => 'ITEM-0001-M-RED',
+                'type' => Item::TYPE_SIMPLE,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id' => self::ITEM_S_RED_ID,
+                'attribute_family_id' => 1,
+                'parent_id' => 1,
+                'base_uom_id' => 1,
+                'sku' => 'ITEM-0001-S-RED',
+                'type' => Item::TYPE_SIMPLE,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id' => self::ITEM_L_BLACK_ID,
+                'attribute_family_id' => 1,
+                'parent_id' => 1,
+                'base_uom_id' => 1,
+                'sku' => 'ITEM-0001-L-BLACK',
+                'type' => Item::TYPE_SIMPLE,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ]);
+
+        ItemAttribute::insert([
+            [
+                'id' => 1,
+                'item_id' => self::ITEM_S_BLACK_ID,
+                'attribute_id' => 1,
+                'text_value' => 'ITEM-0001-S-BLACK',
+                'integer_value' => null,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id' => 2,
+                'item_id' => self::ITEM_S_BLACK_ID,
+                'attribute_id' => 3,
+                'text_value' => null,
+                'integer_value' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id' => 3,
+                'item_id' => self::ITEM_S_BLACK_ID,
+                'attribute_id' => 4,
+                'text_value' => null,
+                'integer_value' => 7,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
+            [
+                'id' => 4,
+                'item_id' => self::ITEM_M_RED_ID,
+                'attribute_id' => 1,
+                'text_value' => 'ITEM-0001-M-RED',
+                'integer_value' => null,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id' => 5,
+                'item_id' => self::ITEM_M_RED_ID,
+                'attribute_id' => 3,
+                'text_value' => null,
+                'integer_value' => 2,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id' => 6,
+                'item_id' => self::ITEM_M_RED_ID,
+                'attribute_id' => 4,
+                'text_value' => null,
+                'integer_value' => 7,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
+            [
+                'id' => 7,
+                'item_id' => self::ITEM_S_RED_ID,
+                'attribute_id' => 1,
+                'text_value' => 'ITEM-0001-S-RED',
+                'integer_value' => null,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id' => 8,
+                'item_id' => self::ITEM_S_RED_ID,
+                'attribute_id' => 3,
+                'text_value' => null,
+                'integer_value' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id' => 9,
+                'item_id' => self::ITEM_S_RED_ID,
+                'attribute_id' => 4,
+                'text_value' => null,
+                'integer_value' => 6,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
+            [
+                'id' => 10,
+                'item_id' => self::ITEM_L_BLACK_ID,
+                'attribute_id' => 1,
+                'text_value' => 'ITEM-0001-L-BLACK',
+                'integer_value' => null,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id' => 11,
+                'item_id' => self::ITEM_L_BLACK_ID,
+                'attribute_id' => 3,
+                'text_value' => null,
+                'integer_value' => 3,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id' => 12,
+                'item_id' => self::ITEM_L_BLACK_ID,
+                'attribute_id' => 4,
+                'text_value' => null,
+                'integer_value' => 7,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ]);
+
+        Supplier::insert([
+            [
+                'id' => self::SUPPLIER_PILOT_ID,
+                'code' => 'SPLR-0001',
+                'name' => 'Pilot',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id' => self::SUPPLIER_PENTEL_ID,
+                'code' => 'SPLR-0002',
+                'name' => 'Pentel',
+                'created_at' => now(),
+                'updated_at' => now(),
             ]
-        ];
+        ]);
 
+        SupplierItem::insert([
+            [
+                'id' => self::SUPPLIER_ITEM_PILOT_S_BLACK_ID,
+                'supplier_id' => self::SUPPLIER_PILOT_ID,
+                'item_id' => self::ITEM_S_BLACK_ID,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id' => self::SUPPLIER_ITEM_PILOT_M_RED_ID,
+                'supplier_id' => self::SUPPLIER_PILOT_ID,
+                'item_id' => self::ITEM_M_RED_ID,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id' => self::SUPPLIER_ITEM_PILOT_S_RED_ID,
+                'supplier_id' => self::SUPPLIER_PILOT_ID,
+                'item_id' => self::ITEM_S_RED_ID,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id' => self::SUPPLIER_ITEM_PENTEL_L_BLACK_ID,
+                'supplier_id' => self::SUPPLIER_PENTEL_ID,
+                'item_id' => self::ITEM_L_BLACK_ID,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ]);
 
-        $attribute_family_code = data_get($item_data, 'attribute_family_code', AttributeFamily::DEFAULT_CODE);
-
-        $item = app(CreateItemAction::class)->handle(new CreateItemDTO(
-            $item_data['sku'],
-            Item::TYPE_CONFIGURABLE,
-            null,
-            AttributeFamily::getID($attribute_family_code),
-            AttributeDTO::mapFromArray($item_data['attributes']),
-            $item_data['configurable_attributes'] ?? [],
-        ));
-
-        $pilot_items = array_map( function ($attributes)use ($item) {
-            return self::searchItem($item->id, AttributeDTO::mapFromArray($attributes));
-        }, $supplier_pilot_items_data);
-
-        $pentel_items = array_map( function ($attributes)use ($item) {
-            return self::searchItem($item->id, AttributeDTO::mapFromArray($attributes));
-        }, $supplier_pentel_items);
-
-
-        $small_black = $this->searchItem($item->id, AttributeDTO::mapFromArray($supplier_pilot_items_data['small_black']));
-        $small_red = $this->searchItem($item->id, AttributeDTO::mapFromArray($supplier_pilot_items_data['small_red']));
-
-        
+        SupplierItemOffer::insert([
+            [
+                'id' => 1,
+                'supplier_item_id' => self::SUPPLIER_ITEM_PILOT_S_BLACK_ID,
+                'uom_id' => 2,
+                'conversion_factor_to_item_uom' => 10,
+                'last_quoted_price' => 500,
+                'is_default' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id' => 2,
+                'supplier_item_id' => self::SUPPLIER_ITEM_PILOT_M_RED_ID,
+                'uom_id' => 2,
+                'conversion_factor_to_item_uom' => 10,
+                'last_quoted_price' => 575,
+                'is_default' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id' => 3,
+                'supplier_item_id' => self::SUPPLIER_ITEM_PILOT_S_RED_ID,
+                'uom_id' => 2,
+                'conversion_factor_to_item_uom' => 10,
+                'last_quoted_price' => 500,
+                'is_default' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id' => 4,
+                'supplier_item_id' => self::SUPPLIER_ITEM_PENTEL_L_BLACK_ID,
+                'uom_id' => 2,
+                'conversion_factor_to_item_uom' => 12,
+                'last_quoted_price' => 750,
+                'is_default' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id' => 5,
+                'supplier_item_id' => self::SUPPLIER_ITEM_PENTEL_L_BLACK_ID,
+                'uom_id' => 1,
+                'conversion_factor_to_item_uom' => 1,
+                'last_quoted_price' => 100,
+                'is_default' => false,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ]);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Domains\Procurement\Controllers;
+namespace Tests\Feature\Domains\Supplier\Controllers;
 
 use App\Domains\Supplier\Models\Supplier;
 use App\Domains\Core\Models\User;
@@ -22,7 +22,7 @@ class SupplierControllerTest extends TestCase
 
         $user = User::factory()->create();
 
-        $response = $this->actingAs($user)->post('/api/procurement/suppliers', [
+        $response = $this->actingAs($user)->post('/api/supplier/suppliers', [
             'code' => $code,
             'name' => fake()->company()
         ]);

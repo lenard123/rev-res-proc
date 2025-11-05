@@ -10,6 +10,7 @@ use App\Domains\Attribute\Models\AttributeFamily;
 use App\Domains\Catalog\Models\Item;
 use App\Domains\Catalog\Models\ItemAttribute;
 use App\Domains\Core\Models\User;
+use App\Domains\Procurement\Enums\PurchaseRequestStatus;
 use App\Domains\Procurement\Models\PurchaseRequest;
 use App\Domains\Procurement\Models\PurchaseRequestItem;
 use App\Domains\Supplier\Actions\AddSupplierItemAction;
@@ -134,7 +135,7 @@ class MockDataSeeder extends Seeder
         PurchaseRequest::insert([[
             'id' => 1,
             'user_id' => $user_1->id,
-            'status' => PurchaseRequest::STATUS_PENDING_APPROVAL,
+            'status' => PurchaseRequestStatus::PENDING_APPROVAL,
             'created_at' => now(),
             'updated_at' => now(),
         ]]);

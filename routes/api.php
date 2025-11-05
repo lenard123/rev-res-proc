@@ -14,12 +14,17 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     
         Route::post('/items', [ItemController::class, 'store']);
     });
-    
-    Route::group(['prefix' => '/procurement'], function () {
+
+    Route::group(['prefix' => '/supplier'], function () {
         Route::post('/suppliers', [SupplierController::class, 'store']);
         Route::post('/suppliers/{supplier}/items', [SupplierItemController::class, 'store']);
-
+    });
+    
+    Route::group(['prefix' => '/procurement'], function () {
         Route::post('/purchase-requests', [PurchaseRequestController::class, 'store']);
+        Route::get('/purchase-requests/{purchaseRequest}', [PurchaseRequestController::class, 'show']);
+        Route::post('/purchase-requests/{purchaseRequest}/process', [PurchaseRequestController::class, 'process']);
+
         Route::put('/purchase-requests/{purchaseRequest}/items', [PurchaseRequestItemController::class, 'update']);
     });
 });

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Domains\Procurement\Controllers;
+namespace Tests\Feature\Domains\Supplier\Controllers;
 
 use App\Domains\Catalog\Models\Item;
 use App\Domains\Supplier\Models\Supplier;
@@ -19,7 +19,7 @@ class SupplierItemControllerTest extends TestCase
         $items = Item::factory()->count(2)->create();
         $user = User::factory()->create();
 
-        $response = $this->actingAs($user)->post("/api/procurement/suppliers/{$supplier->id}/items", [
+        $response = $this->actingAs($user)->post("/api/supplier/suppliers/{$supplier->id}/items", [
             'item_ids' => $items->pluck('id')->toArray()
         ]);
 

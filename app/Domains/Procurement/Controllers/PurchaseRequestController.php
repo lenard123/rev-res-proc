@@ -4,6 +4,7 @@ namespace App\Domains\Procurement\Controllers;
 
 use App\Domains\Procurement\Models\PurchaseRequest;
 use App\Domains\Core\Controllers\Controller;
+use App\Domains\Procurement\Enums\PurchaseRequestStatus;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
@@ -11,6 +12,12 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class PurchaseRequestController extends Controller
 {
+
+    public function show(PurchaseRequest $purchaseRequest)
+    {
+        return new JsonResource($purchaseRequest);
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -20,28 +27,26 @@ class PurchaseRequestController extends Controller
         $purchase_request = PurchaseRequest::create([
             'remarks' => $request->remarks,
             'user_id' => Auth::id(),
-            'status' => PurchaseRequest::STATUS_DRAFT,
+            'status' => PurchaseRequestStatus::DRAFT,
         ]);
 
         return new JsonResource($purchase_request);
+    }
 
-        // return DB::transaction(function () use ($request) {
-        //     $purchase_request = PurchaseRequest::create([
-        //         'remarks' => $request->remarks,
-        //         'user_id' => Auth::id(),
-        //         'status' => PurchaseRequest::STATUS_DRAFT,
-        //     ]);
+    public function process(PurchaseRequest $purchaseRequest)
+    {
+        if ($purchaseRequest->purchaseRequestItems()->count() === 0) {
+            abort(409, "Atleast 1 Item is required");
+        }
 
-        //     $items = $request->array('purchase_request_items');
-        //     foreach ($items as $item) {
-        //         $purchase_request->purchaseRequestItems()->create([
-        //             'item_id' => data_get($item, 'item_id'),
-        //             'quantity_requested' => data_get($item, 'quantity'),
-        //             'remarks' => data_get($item, 'remarks')
-        //         ]);
-        //     }
+        if ($purchaseRequest->status !== PurchaseRequestStatus::DRAFT) {
+            abort(409, "Only draft Purchase Request Can be posted");
+        }
 
-        //     return new JsonResource($purchase_request);
-        // });
+        $purchaseRequest->update([
+            'status' => PurchaseRequestStatus::PENDING_APPROVAL
+        ]);
+
+        return new JsonResource($purchaseRequest);
     }
 }

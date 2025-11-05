@@ -3,6 +3,7 @@
 namespace Tests\Feature\Domains\Procurement\Controllers;
 
 use App\Domains\Core\Models\User;
+use App\Domains\Procurement\Enums\PurchaseRequestStatus;
 use App\Domains\Procurement\Models\PurchaseRequest;
 use Database\Seeders\DummyItemSeeder;
 use Database\Seeders\MockDataSeeder;
@@ -45,5 +46,54 @@ class PurchaseRequestItemControllerTest extends TestCase
     public function test_update_function_ensure_only_simple_item_type_can_be_requested()
     {
         $this->markTestIncomplete();
+    }
+
+    public function test_update_function_prevent_updating_of_non_draft_purchase_request()
+    {
+        $this->seed(MockDataSeeder::class);
+
+        $user = User::factory()->create();
+
+        $purchase_request = PurchaseRequest::factory()
+            ->create(['user_id' => $user->id, 'status' => PurchaseRequestStatus::PENDING_APPROVAL]);
+
+        $response = $this->actingAs($user)->put("/api/procurement/purchase-requests/{$purchase_request->id}/items", [
+            'purchase_request_items' => [
+                ['item_id' => DummyItemSeeder::ITEM_L_BLACK_ID, 'quantity_requested' => 35],
+                ['item_id' => DummyItemSeeder::ITEM_S_BLACK_ID, 'quantity_requested' => 12],
+            ]
+        ]);
+
+        $response->assertStatus(409);
+    }
+
+    public function test_process_function_submit_draft_purchase_request()
+    {
+        $this->seed(MockDataSeeder::class);
+
+        $user = User::factory()->create();
+
+        $purchase_request = PurchaseRequest::factory()
+            ->withItems()
+            ->create(['user_id' => $user->id]);
+
+        $response = $this->actingAs($user)->post("/api/procurement/purchase-requests/{$purchase_request->id}/process");
+
+        $response->assertStatus(200);
+    }
+
+    public function test_process_function_only_draft_can_be_posted()
+    {
+        $this->seed(MockDataSeeder::class);
+
+        $user = User::factory()->create();
+
+        $purchase_request = PurchaseRequest::factory()
+            ->withItems()
+            ->create(['user_id' => $user->id, 'status' => PurchaseRequestStatus::PENDING_APPROVAL]);
+
+        $response = $this->actingAs($user)->post("/api/procurement/purchase-requests/{$purchase_request->id}/process");
+
+        $response->assertStatus(409);
     }
 }

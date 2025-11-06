@@ -20,7 +20,7 @@ class ProcessPurchaseRequestAction
         }
 
         $purchaseRequest->update([
-            'status' => PurchaseRequestStatus::PENDING_APPROVAL
+            'status' => PurchaseRequestStatus::PREPARING // Since there is no approval process for now, we are directly moving to preparing
         ]);
 
         event(new PurchaseRequestProcessed());

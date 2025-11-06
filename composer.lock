@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6c4b9d39f663b52dd6c565b999507cf4",
+    "content-hash": "80b9000347587f51edafb1872d4f2e42",
     "packages": [
         {
             "name": "brick/math",
@@ -508,6 +508,35 @@
                 }
             ],
             "time": "2025-03-06T22:45:56+00:00"
+        },
+        {
+            "name": "enterprisesuite/feature",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/enterprisesuite/feature",
+                "reference": "bcaf0cea7640172a4b86d6f80cc6b829b7900ac0"
+            },
+            "require": {
+                "php": "^8.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Enterprisesuite\\Feature\\Providers\\FeatureServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Enterprisesuite\\Feature\\": "src/"
+                }
+            },
+            "description": "Enterprise Suite Feature",
+            "transport-options": {
+                "relative": true
+            }
         },
         {
             "name": "fruitcake/php-cors",
@@ -8750,7 +8779,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": {
+        "enterprisesuite/feature": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

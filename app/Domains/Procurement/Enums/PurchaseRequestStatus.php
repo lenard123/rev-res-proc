@@ -6,7 +6,8 @@ enum PurchaseRequestStatus: string
 {
     case DRAFT = 'draft';
     case PENDING_APPROVAL = 'pending_approval';
-    case APPROVED = 'approved';
+    case PREPARING = 'preparing';
+    case RETURNED = 'returned';
     case REJECTED = 'rejected';
     case CLOSED = 'closed';
     case CANCELLED = 'cancelled';
@@ -16,7 +17,8 @@ enum PurchaseRequestStatus: string
         return match($this) {
             self::DRAFT => 'Draft',
             self::PENDING_APPROVAL => 'Pending Approval',
-            self::APPROVED => 'Approved',
+            self::RETURNED => 'Returned',
+            self::PREPARING => 'Preparing',
             self::REJECTED => 'Rejected',
             self::CLOSED => 'Closed',
             self::CANCELLED => 'Cancelled',

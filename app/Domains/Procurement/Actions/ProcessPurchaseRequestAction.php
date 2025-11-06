@@ -6,6 +6,7 @@ use App\Domains\Core\Exceptions\ConflictException;
 use App\Domains\Procurement\Enums\PurchaseRequestStatus;
 use App\Domains\Procurement\Events\PurchaseRequestProcessed;
 use App\Domains\Procurement\Models\PurchaseRequest;
+use Enterprisesuite\Feature\Facades\Feature;
 
 class ProcessPurchaseRequestAction
 {
@@ -19,9 +20,15 @@ class ProcessPurchaseRequestAction
             throw new ConflictException(__('procurement.only_draft_can_be_processed'));
         }
 
-        $purchaseRequest->update([
-            'status' => PurchaseRequestStatus::PREPARING // Since there is no approval process for now, we are directly moving to preparing
-        ]);
+        if (Feature::enabled('procurement:pr_approval')) {
+            $purchaseRequest->update([
+                'status' => PurchaseRequestStatus::PENDING_APPROVAL
+            ]);
+        } else {
+            $purchaseRequest->update([
+                'status' => PurchaseRequestStatus::PREPARING // Since there is no approval process, we are directly moving to preparing
+            ]);
+        }
 
         event(new PurchaseRequestProcessed());
 

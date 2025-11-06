@@ -7,6 +7,7 @@ use App\Domains\Procurement\Enums\PurchaseRequestStatus;
 use App\Domains\Procurement\Models\PurchaseRequest;
 use Database\Seeders\DummyItemSeeder;
 use Database\Seeders\MockDataSeeder;
+use Enterprisesuite\Feature\Facades\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

@@ -7,6 +7,7 @@ use App\Domains\Procurement\Actions\ProcessPurchaseRequestAction;
 use App\Domains\Procurement\Enums\PurchaseRequestStatus;
 use App\Domains\Procurement\Events\PurchaseRequestProcessed;
 use App\Domains\Procurement\Models\PurchaseRequest;
+use Enterprisesuite\Feature\Facades\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
@@ -20,6 +21,11 @@ class ProcessPurchaseRequestActionTest extends TestCase
         $this->seed();
 
         Event::fake();
+
+        Feature::fake([
+            'procurement:pr_approval' => true
+        ]);
+
 
         $purchase_request = PurchaseRequest::factory()
             ->withItems()

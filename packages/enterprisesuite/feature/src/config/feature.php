@@ -6,7 +6,7 @@ return [
 
     // Cache settings for flag lookups
     'cache' => [
-        'enabled' => true,
+        'enabled' => env('FEATURE_CACHE_ENABLED', true),
         'ttl' => 60, // seconds
         'key_prefix' => 'feature_flags:',
     ],

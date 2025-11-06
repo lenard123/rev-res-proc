@@ -2,13 +2,19 @@
 
 namespace Enterprisesuite\Feature\Providers;
 
+use Enterprisesuite\Feature\FeatureManager;
 use Illuminate\Support\ServiceProvider;
 
 class FeatureServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        //
+        $this->app->singleton(FeatureManager::class, function ($app) {
+            return new FeatureManager(
+                config('feature')
+            );
+        });
+
     }
 
     public function boot(): void

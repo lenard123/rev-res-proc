@@ -20,7 +20,7 @@ class UpdatePurchaseRequestItemsAction
      */
     public function handle(PurchaseRequest $purchaseRequest, array $updatePurchaseRequestItemDTOs): array
     {
-        if ($purchaseRequest->status !== PurchaseRequestStatus::DRAFT || $purchaseRequest->status !== PurchaseRequestStatus::RETURNED) {
+        if ($purchaseRequest->status !== PurchaseRequestStatus::DRAFT && $purchaseRequest->status !== PurchaseRequestStatus::RETURNED) {
             throw new ConflictException('Purchase request is not in draft or returned status');
         }
 

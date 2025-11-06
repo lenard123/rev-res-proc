@@ -24,6 +24,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('purchase_request_id')->constrained('purchase_requests');
             $table->foreignId('item_id')->constrained('items');
+            $table->foreignId('uom_id')->constrained('unit_of_measures');
             $table->integer('quantity_requested');
             $table->text('remarks')->nullable();
             $table->timestamps();

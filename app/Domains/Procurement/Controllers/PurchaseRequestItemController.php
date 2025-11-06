@@ -2,6 +2,7 @@
 
 namespace App\Domains\Procurement\Controllers;
 
+use App\Domains\Catalog\Models\Item;
 use App\Domains\Core\Controllers\Controller;
 use App\Domains\Procurement\Enums\PurchaseRequestStatus;
 use App\Domains\Procurement\Models\PurchaseRequest;
@@ -34,10 +35,13 @@ class PurchaseRequestItemController extends Controller
 
             $purchaseRequest->purchaseRequestItems()->delete();
             foreach ($items as $item) {
+                $item_id = data_get($item, 'item_id');
+                $base_uom_id = Item::where('id', $item_id)->value('base_uom_id');
                 $purchaseRequest->purchaseRequestItems()->create([
-                    'item_id' => data_get($item, 'item_id'),
+                    'item_id' => $item_id,
                     'quantity_requested' => data_get($item, 'quantity_requested'),
-                    'remarks' => data_get($item, 'remarks')
+                    'remarks' => data_get($item, 'remarks'),
+                    'uom_id' => $base_uom_id,
                 ]);
             }
 

@@ -16,6 +16,7 @@ class PurchaseRequestItemFactory extends Factory
         return [
             'purchase_request_id' => PurchaseRequest::factory(),
             'item_id' => Item::factory(),
+            'uom_id' => 1,
             'quantity_requested' => fake()->randomNumber(2, true),
             'remarks' => fake()->realText(),
         ];

@@ -1,0 +1,21 @@
+{
+    "name": "enterprisesuite/db-backup",
+    "description": "Enterprise Suite Database Backup",
+    "type": "library",
+    "version": "1.0.0",
+    "autoload": {
+        "psr-4": {
+            "Enterprisesuite\\DbBackup\\": "src/"
+        }        
+    },
+    "require": {
+        "php": "^8.2"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Enterprisesuite\\DbBackup\\Providers\\DbBackupServiceProvider"
+            ]
+        }
+    }
+}

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "80b9000347587f51edafb1872d4f2e42",
+    "content-hash": "d6a4a0162c87941ce7f4855c2ac00dfa",
     "packages": [
         {
             "name": "brick/math",
@@ -508,6 +508,64 @@
                 }
             ],
             "time": "2025-03-06T22:45:56+00:00"
+        },
+        {
+            "name": "enterprisesuite/db-backup",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/enterprisesuite/db-backup",
+                "reference": "bfd53a25ee7914a9283088ef58e281794ea63708"
+            },
+            "require": {
+                "php": "^8.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Enterprisesuite\\DbBackup\\Providers\\DbBackupServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Enterprisesuite\\DbBackup\\": "src/"
+                }
+            },
+            "description": "Enterprise Suite Database Backup",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
+            "name": "enterprisesuite/domain-driven",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/enterprisesuite/domain-driven",
+                "reference": "6c21b06356ab2bae2639a8a3d30f01f85e6920b2"
+            },
+            "require": {
+                "php": "^8.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Enterprisesuite\\DomainDriven\\Providers\\DomainDrivenServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Enterprisesuite\\DomainDriven\\": "src/"
+                }
+            },
+            "description": "Enterprise Suite Domain Driven",
+            "transport-options": {
+                "relative": true
+            }
         },
         {
             "name": "enterprisesuite/feature",
@@ -8780,6 +8838,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "enterprisesuite/db-backup": 20,
+        "enterprisesuite/domain-driven": 20,
         "enterprisesuite/feature": 20
     },
     "prefer-stable": true,

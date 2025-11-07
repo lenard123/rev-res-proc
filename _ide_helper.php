@@ -22973,7 +22973,7 @@ namespace Illuminate\Support {
      */
     class Collection {
         /**
-         * @see \App\Domains\Core\Providers::boot()
+         * @see \App\Domains\Core\Providers\AppServiceProvider::boot()
          * @static
          */
         public static function recursive()

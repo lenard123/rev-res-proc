@@ -11,7 +11,7 @@ use DB;
 
 class CreatePurchaseOrderAction
 {
-    public function handle(CreatePurchaseOrderDTO $createPurchaseOrder)
+    public function handle(CreatePurchaseOrderDTO $createPurchaseOrder): PurchaseOrder
     {
         return DB::transaction(function () use ($createPurchaseOrder) {
             /** @var PurchaseOrder $purchaseOrder */
@@ -33,7 +33,6 @@ class CreatePurchaseOrderAction
                     'uom_id' => $order_item_dto->uom_id,
                     'supplier_item_offer_id' => $order_item_dto->supplier_item_offer_id,
                     'quantity_ordered' => $order_item_dto->quantity_ordered,
-                    'unit_price' => $order_item_dto->unit_price,
                     'remarks' => $order_item_dto->remarks,
                 ]);
             }

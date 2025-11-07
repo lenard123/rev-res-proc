@@ -10,6 +10,8 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "enterprisesuite/db-backup": "@dev",
+        "enterprisesuite/domain-driven": "@dev",
         "enterprisesuite/feature": "@dev",
         "laravel/framework": "^12.0",
         "laravel/sanctum": "^4.0",
@@ -94,6 +96,14 @@
         {
             "type": "path",
             "url": "packages/enterprisesuite/feature"
+        },
+        {
+            "type": "path",
+            "url": "packages/enterprisesuite/db-backup"
+        },
+        {
+            "type": "path",
+            "url": "packages/enterprisesuite/domain-driven"
         }
     ]
 }

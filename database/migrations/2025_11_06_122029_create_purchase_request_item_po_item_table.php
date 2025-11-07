@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('purchase_request_item_id')
+                ->unique()
                 ->constrained('purchase_request_items')
                 ->cascadeOnDelete();
 

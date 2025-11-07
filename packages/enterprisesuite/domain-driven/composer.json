@@ -1,0 +1,21 @@
+{
+    "name": "enterprisesuite/domain-driven",
+    "description": "Enterprise Suite Domain Driven",
+    "type": "library",
+    "version": "1.0.0",
+    "autoload": {
+        "psr-4": {
+            "Enterprisesuite\\DomainDriven\\": "src/"
+        }        
+    },
+    "require": {
+        "php": "^8.2"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Enterprisesuite\\DomainDriven\\Providers\\DomainDrivenServiceProvider"
+            ]
+        }
+    }
+}

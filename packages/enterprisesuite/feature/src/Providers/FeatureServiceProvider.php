@@ -9,6 +9,8 @@ class FeatureServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
+        $this->mergeConfigFrom(__DIR__ . '/../config/feature.php', 'feature');
+
         $this->app->singleton(FeatureManager::class, function ($app) {
             return new FeatureManager(
                 config('feature')
@@ -19,7 +21,6 @@ class FeatureServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/feature.php', 'feature');
         $this->publishes([
             __DIR__ . '/../config/feature.php' => config_path('feature.php'),
         ], 'feature-config');

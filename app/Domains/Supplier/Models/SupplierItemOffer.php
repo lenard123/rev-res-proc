@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Summary of SupplierItemOffer
  * @property int $id
+ * @property int $uom_id
+ * @property float $last_quoted_price
  * @property SupplierItem $supplierItem
  * @property string $status
  */

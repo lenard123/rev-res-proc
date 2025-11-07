@@ -4,9 +4,10 @@ namespace App\Domains\Procurement\Enums;
 
 enum PurchaseRequestStatus: string
 {
-    case DRAFT = 'draft';
-    case PENDING_APPROVAL = 'pending_approval';
-    case PREPARING = 'preparing';
+    case DRAFT = 'draft'; // Initialized the purchase requests
+    case FOR_APPROVAL = 'for_approval'; // Awaiting to be approved
+    case PROCESSING = 'processing'; // This stage is the part where we select supplier for each items
+    case PENDING = 'pending';
     case RETURNED = 'returned';
     case REJECTED = 'rejected';
     case CLOSED = 'closed';
@@ -16,9 +17,10 @@ enum PurchaseRequestStatus: string
     {
         return match($this) {
             self::DRAFT => 'Draft',
-            self::PENDING_APPROVAL => 'Pending Approval',
+            self::FOR_APPROVAL => 'Pending Approval',
             self::RETURNED => 'Returned',
-            self::PREPARING => 'Preparing',
+            self::PROCESSING => 'Processing',
+            self::PENDING => 'Pending',
             self::REJECTED => 'Rejected',
             self::CLOSED => 'Closed',
             self::CANCELLED => 'Cancelled',

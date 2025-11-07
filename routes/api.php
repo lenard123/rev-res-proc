@@ -29,5 +29,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('/purchase-requests/{purchaseRequest}/process', [PurchaseRequestController::class, 'process']);
 
         Route::put('/purchase-requests/{purchaseRequest}/items', [PurchaseRequestItemController::class, 'update']);
+        Route::patch('/purchase-request-items/{purchaseRequestItems/supplier', [PurchaseRequestItemController::class, 'selectSupplier']);
     });
 });

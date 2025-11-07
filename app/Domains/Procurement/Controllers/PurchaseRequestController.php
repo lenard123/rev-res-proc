@@ -44,7 +44,7 @@ class PurchaseRequestController extends Controller
         }
 
         $purchaseRequest->update([
-            'status' => PurchaseRequestStatus::PENDING_APPROVAL
+            'status' => PurchaseRequestStatus::FOR_APPROVAL
         ]);
 
         return new JsonResource($purchaseRequest);

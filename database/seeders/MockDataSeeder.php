@@ -2,13 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Domains\Attribute\Actions\CreateItemAction;
-use App\Domains\Attribute\DTOs\AttributeDTO;
-use App\Domains\Catalog\DTOs\CreateItemDTO;
-use App\Domains\Attribute\Models\Attribute;
-use App\Domains\Attribute\Models\AttributeFamily;
-use App\Domains\Catalog\Models\Item;
-use App\Domains\Catalog\Models\ItemAttribute;
 use App\Domains\Core\Models\User;
 use App\Domains\Procurement\Enums\PurchaseRequestStatus;
 use App\Domains\Procurement\Models\PurchaseRequest;
@@ -16,11 +9,9 @@ use App\Domains\Procurement\Models\PurchaseRequestItem;
 use App\Domains\Supplier\Actions\AddSupplierItemAction;
 use App\Domains\Supplier\Actions\CreateSupplierAction;
 use App\Domains\Supplier\Actions\SyncSupplierItemsAction;
-use App\Domains\Supplier\Models\Supplier;
 use App\Domains\Supplier\Models\SupplierItem;
 use App\Domains\Supplier\Models\SupplierItemOffer;
 use Illuminate\Database\Seeder;
-use Str;
 
 class MockDataSeeder extends Seeder
 {
@@ -135,7 +126,7 @@ class MockDataSeeder extends Seeder
         PurchaseRequest::insert([[
             'id' => 1,
             'user_id' => $user_1->id,
-            'status' => PurchaseRequestStatus::PENDING_APPROVAL,
+            'status' => PurchaseRequestStatus::FOR_APPROVAL,
             'created_at' => now(),
             'updated_at' => now(),
         ]]);

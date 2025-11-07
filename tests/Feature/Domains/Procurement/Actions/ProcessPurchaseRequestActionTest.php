@@ -35,7 +35,27 @@ class ProcessPurchaseRequestActionTest extends TestCase
 
         $processed_pr = $action->handle($purchase_request);
 
-        $this->assertEquals(PurchaseRequestStatus::PENDING_APPROVAL, $processed_pr->status);
+        $this->assertEquals(PurchaseRequestStatus::FOR_APPROVAL, $processed_pr->status);
+        Event::assertDispatched(PurchaseRequestProcessed::class);
+    }
+
+    public function test_it_process_purchase_request_and_make_it_preparing_if_approval_feature_is_disabled(): void
+    {
+        $this->seed();
+
+        Event::fake();
+
+        Feature::fake(['procurement:pr_approval' => false]);
+
+        $purchase_request = PurchaseRequest::factory()
+            ->withItems()
+            ->create();
+
+        $action = app(ProcessPurchaseRequestAction::class);
+
+        $processed_pr = $action->handle($purchase_request);
+
+        $this->assertEquals(PurchaseRequestStatus::PROCESSING, $processed_pr->status);
         Event::assertDispatched(PurchaseRequestProcessed::class);
     }
 
@@ -59,7 +79,7 @@ class ProcessPurchaseRequestActionTest extends TestCase
         $this->expectException(ConflictException::class);
         $this->expectExceptionMessage(__('procurement.only_draft_can_be_processed'));
 
-        $purchase_request = PurchaseRequest::factory()->withItems()->create(['status' => PurchaseRequestStatus::PENDING_APPROVAL]);
+        $purchase_request = PurchaseRequest::factory()->withItems()->create(['status' => PurchaseRequestStatus::FOR_APPROVAL]);
         $action->handle($purchase_request);
     }
 }

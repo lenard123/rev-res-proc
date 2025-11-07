@@ -56,7 +56,7 @@ class PurchaseRequestItemControllerTest extends TestCase
         $user = User::factory()->create();
 
         $purchase_request = PurchaseRequest::factory()
-            ->create(['user_id' => $user->id, 'status' => PurchaseRequestStatus::PENDING_APPROVAL]);
+            ->create(['user_id' => $user->id, 'status' => PurchaseRequestStatus::FOR_APPROVAL]);
 
         $response = $this->actingAs($user)->put("/api/procurement/purchase-requests/{$purchase_request->id}/items", [
             'purchase_request_items' => [

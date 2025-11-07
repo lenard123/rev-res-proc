@@ -22,11 +22,11 @@ class ProcessPurchaseRequestAction
 
         if (Feature::enabled('procurement:pr_approval')) {
             $purchaseRequest->update([
-                'status' => PurchaseRequestStatus::PENDING_APPROVAL
+                'status' => PurchaseRequestStatus::FOR_APPROVAL
             ]);
         } else {
             $purchaseRequest->update([
-                'status' => PurchaseRequestStatus::PREPARING // Since there is no approval process, we are directly moving to preparing
+                'status' => PurchaseRequestStatus::PROCESSING // Since there is no approval process, we are directly moving to preparing
             ]);
         }
 

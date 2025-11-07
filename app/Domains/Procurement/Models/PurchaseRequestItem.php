@@ -2,10 +2,16 @@
 
 namespace App\Domains\Procurement\Models;
 
+use App\Domains\Catalog\Models\Item;
 use App\Domains\Procurement\Factories\PurchaseRequestItemFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Summary of PurchaseRequestItem
+ * @property int $item_id
+ * @property int $supplier_item_offer_id
+ */
 class PurchaseRequestItem extends Model
 {
     use HasFactory;
@@ -13,6 +19,11 @@ class PurchaseRequestItem extends Model
     public function purchaseRequest()
     {
         return $this->belongsTo(PurchaseRequest::class);
+    }
+
+    public function item()
+    {
+        return $this->belongsTo(Item::class);
     }
 
     protected static function newFactory()

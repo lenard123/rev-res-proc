@@ -4,11 +4,15 @@ namespace App\Domains\Procurement\Controllers;
 
 use App\Domains\Catalog\Models\Item;
 use App\Domains\Core\Controllers\Controller;
+use App\Domains\Core\Exceptions\ConflictException;
+use App\Domains\Procurement\Actions\SelectPurchaseRequestItemSupplierAction;
 use App\Domains\Procurement\Actions\UpdatePurchaseRequestItemsAction;
 use App\Domains\Procurement\DTOs\UpdatePurchaseRequestItemDTO;
 use App\Domains\Procurement\Enums\PurchaseRequestStatus;
 use App\Domains\Procurement\Models\PurchaseRequest;
 use App\Domains\Procurement\Models\PurchaseRequestItem;
+use App\Domains\Procurement\Resources\PurchaseRequestItemResource;
+use App\Domains\Supplier\Models\SupplierItemOffer;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -33,5 +37,18 @@ class PurchaseRequestItemController extends Controller
         $purchaseRequestItems = $updatePurchaseRequestItems->handle($purchaseRequest, $updatePurchaseRequestItemsDTOs);
 
         return JsonResource::collection($purchaseRequestItems);
+    }
+
+    public function selectSupplier(PurchaseRequestItem $purchaseRequestItem, Request $request, SelectPurchaseRequestItemSupplierAction $selectPurchaseRequestItemSupplierAction)
+    {
+        $request->validate([
+            'supplier_item_offer_id' => 'required|exists:supplier_item_offers,id'
+        ]);        
+
+        $supplierItemOffer = SupplierItemOffer::find($request->supplier_item_offer_id);
+
+        $updatedPurchaseRequestItem = $selectPurchaseRequestItemSupplierAction->handle($purchaseRequestItem, $supplierItemOffer);
+
+        return new PurchaseRequestItemResource($updatedPurchaseRequestItem);        
     }
 }

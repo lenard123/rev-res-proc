@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * Summary of PurchaseRequestItem
  * @property int $item_id
  * @property int $supplier_item_offer_id
+ * @property PurchaseRequest $purchaseRequest
  */
 class PurchaseRequestItem extends Model
 {

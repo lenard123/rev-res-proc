@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('fulfillment_status'); // open, partially_received, closed
             $table->string('payment_status'); // unpaid, partially_paid, paid
             $table->text('remarks')->nullable();
-            $table->date('order_date');
+            $table->date('order_date')->nullable();
             $table->timestamps();
         });
     }

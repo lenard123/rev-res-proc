@@ -11,10 +11,30 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Summary of PurchaseRequest
+ *
  * @property int $id
  * @property mixed $created_at
  * @property PurchaseRequestStatus $status
  * @property PurchaseRequestOrderStatus $order_status
+ * @property int $user_id
+ * @property string|null $remarks
+ * @property string|null $approved_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read string $transaction_no
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Domains\Procurement\Models\PurchaseRequestItem> $purchaseRequestItems
+ * @property-read int|null $purchase_request_items_count
+ * @method static \App\Domains\Procurement\Factories\PurchaseRequestFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PurchaseRequest newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PurchaseRequest newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PurchaseRequest query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PurchaseRequest whereApprovedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PurchaseRequest whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PurchaseRequest whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PurchaseRequest whereRemarks($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PurchaseRequest whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PurchaseRequest whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PurchaseRequest whereUserId($value)
+ * @mixin \Eloquent
  */
 class PurchaseRequest extends Model
 {

@@ -7,6 +7,9 @@ use App\Domains\Supplier\Models\SupplierItem;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
+/**
+ * @extends Factory<Supplier>
+ */
 class SupplierFactory extends Factory
 {
     protected $model = Supplier::class;

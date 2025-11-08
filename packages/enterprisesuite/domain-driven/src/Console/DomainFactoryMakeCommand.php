@@ -59,7 +59,7 @@ class DomainFactoryMakeCommand extends GeneratorCommand
     {
         $domain = ucfirst($this->argument('domain'));
         $model = ucfirst($this->argument('name'));
-        return "\\App\\Domains\\{$domain}\\Models\\{$model}::class";
+        return "\\App\\Domains\\{$domain}\\Models\\{$model}";
     }
 
 

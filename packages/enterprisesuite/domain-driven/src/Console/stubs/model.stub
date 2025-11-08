@@ -5,10 +5,10 @@ namespace {{ namespace }};
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Domains\{{ domain }}\Factories\{{ class }}Factory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-/** @method static {{ class }}Factory factory(...$parameters) */
 #[UseFactory({{ class }}Factory::class)]
 class {{ class }} extends Model
 {
-
+    use HasFactory;
 }

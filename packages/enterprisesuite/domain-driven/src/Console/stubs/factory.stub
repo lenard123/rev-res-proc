@@ -4,9 +4,12 @@ namespace {{ namespace }};
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends Factory<{{ model }}>
+ */
 class {{ class }} extends Factory
 {
-    protected $model = {{ model }};
+    protected $model = {{ model }}::class;
 
     public function definition(): array
     {

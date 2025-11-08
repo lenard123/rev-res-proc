@@ -8,6 +8,10 @@ use App\Domains\Procurement\Models\PurchaseRequest;
 use App\Domains\Procurement\Models\PurchaseRequestItem;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * Summary of PurchaseRequestFactory
+ * @extends Factory<PurchaseRequest>
+ */
 class PurchaseRequestFactory extends Factory
 {
     protected $model = PurchaseRequest::class;

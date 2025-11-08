@@ -25,6 +25,11 @@ class SupplierItemOffer extends Model
         return $this->belongsTo(SupplierItem::class);
     }
 
+    public function prices()
+    {
+        return $this->hasMany(SupplierItemOfferPrice::class);
+    }
+
     protected static function newFactory()
     {
         return SupplierItemOfferFactory::new();

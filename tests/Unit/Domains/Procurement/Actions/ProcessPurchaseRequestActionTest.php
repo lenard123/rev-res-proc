@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Domains\Procurement\Actions;
+namespace Tests\Unit\Domains\Procurement\Actions;
 
 use App\Domains\Core\Exceptions\ConflictException;
 use App\Domains\Procurement\Actions\ProcessPurchaseRequestAction;

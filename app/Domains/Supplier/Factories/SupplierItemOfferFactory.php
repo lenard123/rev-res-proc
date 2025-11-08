@@ -3,8 +3,10 @@
 namespace App\Domains\Supplier\Factories;
 
 use App\Domains\Catalog\Models\Item;
+use App\Domains\Supplier\Models\Supplier;
 use App\Domains\Supplier\Models\SupplierItem;
 use App\Domains\Supplier\Models\SupplierItemOffer;
+use App\Domains\Supplier\Models\SupplierItemOfferPrice;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class SupplierItemOfferFactory extends Factory
@@ -29,5 +31,20 @@ class SupplierItemOfferFactory extends Factory
         return $this->state([
             'supplier_item_id' => SupplierItem::factory()->for($item)
         ]);
+    }
+
+    public function configure()
+    {
+        return $this->afterCreating(function (SupplierItemOffer $offer) {
+            if ($offer->prices()->count() == 0) {
+                SupplierItemOfferPrice::factory()
+                    ->for($offer, 'offer')
+                    ->create([
+                        'unit_price' => $offer->last_quoted_price,
+                        'valid_from' => now(),
+                        'notes' => 'AUTO GENERATED FROM FACTORY',
+                    ]);
+            }
+        });
     }
 }

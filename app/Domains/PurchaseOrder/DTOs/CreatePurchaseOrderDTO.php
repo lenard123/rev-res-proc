@@ -27,11 +27,11 @@ class CreatePurchaseOrderDTO
     public static function fromArray(array $data): self
     {
         return new self(
-            supplier_id: data_get($data, 'supplier_id'),
-            purchase_request_id: data_get($data, 'purchase_request_id'),
-            user_id: data_get($data, 'user_id'),
-            remarks: data_get($data, 'remarks'),
-            order_items: data_get($data, 'order_items', []),
+            data_get($data, 'supplier_id'),
+            data_get($data, 'purchase_request_id'),
+            data_get($data, 'user_id'),
+            data_get($data, 'remarks'),
+            data_get($data, 'order_items', []),
         );
     }
  
@@ -47,9 +47,9 @@ class CreatePurchaseOrderDTO
         $order_items_dto = array_map(function ($item) {
             return new CreatePurchaseOrderItemDTO(
                 data_get($item, 'supplier_item_offer_id'),
-                data_get($item, 'item_id'),
-                data_get($item, 'uom_id'),
-                data_get($item, 'unit_price'),
+                (int) data_get($item, 'item_id'),
+                (int) data_get($item, 'uom_id'),
+                (float) data_get($item, 'unit_price'),
                 data_get($item, 'quantity_ordered'),
                 data_get($item, 'remarks'),
             );

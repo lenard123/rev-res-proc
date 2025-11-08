@@ -5,11 +5,11 @@ namespace Enterprisesuite\DomainDriven\Console;
 use Illuminate\Console\GeneratorCommand;
 use Symfony\Component\Console\Input\InputArgument;
 
-class DomainModelMakeCommand extends GeneratorCommand
+class DomainFactoryMakeCommand extends GeneratorCommand
 {
-    protected $name = 'domain:model';
-    protected $description = 'Create a new Eloquent model inside a specific domain';
-    protected $type = 'Model';
+    protected $name = 'domain:factory';
+    protected $description = 'Create a new Model Factory inside a specific domain';
+    protected $type = 'Factory';
 
 
     /**
@@ -17,21 +17,18 @@ class DomainModelMakeCommand extends GeneratorCommand
      */
     protected function getStub(): string
     {
-        return __DIR__ . '/stubs/model.stub';
+        return __DIR__ . '/stubs/factory.stub';
     }
 
-    public function handle()
+    /**
+     * Define where the file should be created
+     */
+    protected function getPath($name): string
     {
-        $result = parent::handle();
-        if ($result !== false) {
-            $domain = $this->argument('domain');
-            $name = $this->argument('name');
+        $domain = ucfirst($this->argument('domain'));
+        $model = class_basename($name);
 
-            $this->call('domain:factory', [
-                'domain' => $domain,
-                'name'   => $name,
-            ]);
-        }
+        return base_path("app/Domains/{$domain}/Factories/{$model}.php");
     }
 
     /**
@@ -44,8 +41,7 @@ class DomainModelMakeCommand extends GeneratorCommand
     protected function replaceNamespace(&$stub, $name)
     {
         $searches = [
-            '{{ factory }}' => $this->getFactoryClassName(),
-            '{{ domain }}' => $this->argument('domain'),
+            '{{ model }}' => $this->getModelClassName(),
         ];
 
         foreach ($searches as $search => $replace) {
@@ -59,23 +55,13 @@ class DomainModelMakeCommand extends GeneratorCommand
         return parent::replaceNamespace($stub, $name);
     }
 
-    private function getFactoryClassName()
+    private function getModelClassName()
     {
         $domain = ucfirst($this->argument('domain'));
         $model = ucfirst($this->argument('name'));
-        return "\\App\\Domains\\{$domain}\\Factories\\{$model}Factory::new()";
+        return "\\App\\Domains\\{$domain}\\Models\\{$model}::class";
     }
 
-    /**
-     * Define where the file should be created
-     */
-    protected function getPath($name): string
-    {
-        $domain = ucfirst($this->argument('domain'));
-        $model = class_basename($name);
-
-        return base_path("app/Domains/{$domain}/Models/{$model}.php");
-    }
 
     /**
      * Define the class name with namespace
@@ -83,7 +69,7 @@ class DomainModelMakeCommand extends GeneratorCommand
     protected function qualifyClass($name): string
     {
         $domain = ucfirst($this->argument('domain'));
-        return "App\\Domains\\{$domain}\\Models\\{$name}";
+        return "App\\Domains\\{$domain}\\Factories\\{$name}Factory";
     }
 
     /**
@@ -94,6 +80,14 @@ class DomainModelMakeCommand extends GeneratorCommand
         return [
             ['domain', InputArgument::REQUIRED, 'The domain name'],
             ['name', InputArgument::REQUIRED, 'The model name'],
+        ];
+    }
+
+    protected function promptForMissingArgumentsUsing()
+    {
+        return [
+            'domain' => ['What should be the Domain name?', 'E.g. Catalog, Supplier'],
+            'name' => ['What should be the Model name?', 'E.g. Item, Supplier'],
         ];
     }
 }

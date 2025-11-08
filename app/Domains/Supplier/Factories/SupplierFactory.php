@@ -3,6 +3,7 @@
 namespace App\Domains\Supplier\Factories;
 
 use App\Domains\Supplier\Models\Supplier;
+use App\Domains\Supplier\Models\SupplierItem;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -16,5 +17,15 @@ class SupplierFactory extends Factory
             'code' => Str::uuid()->toString(),
             'name' => $this->faker->company(),
         ];
+    }
+
+    public function supplierItem($count = 3)
+    {
+        return $this->afterCreating(function(Supplier $supplier) use ($count) {
+            SupplierItem::factory()
+                ->count($count)
+                ->for($supplier)
+                ->create();
+        });
     }
 }

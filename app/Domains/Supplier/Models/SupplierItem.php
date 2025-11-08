@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Summary of SupplierItem
  * @property int $item_id
+ * @property int $supplier_id
  * @property string $status
  */
 class SupplierItem extends Model

@@ -10,9 +10,9 @@ use Illuminate\Database\Eloquent\Model;
  * Summary of Item
  *
  * @property int $id
- * @property int $base_uom_id
  * @property int $attribute_family_id
  * @property int|null $parent_id
+ * @property int $base_uom_id
  * @property string $sku
  * @property string $type
  * @property \Illuminate\Support\Carbon|null $created_at

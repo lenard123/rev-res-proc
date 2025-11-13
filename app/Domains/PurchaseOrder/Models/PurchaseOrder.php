@@ -10,13 +10,13 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Summary of PurchaseOrder
  *
- * @property ?int $purchase_request_id This is only use for reference only, to indicates that the PurchaseOrder belongs to specific PurchaseRequest
+ * @property int $id
+ * @property int|null $purchase_request_id
+ * @property int $supplier_id
+ * @property int $user_id
  * @property PurchaseOrderStatus $status
  * @property PurchaseOrderFulfillmentStatus $fulfillment_status
  * @property PurchaseOrderPaymentStatus $payment_status
- * @property int $id
- * @property int $supplier_id
- * @property int $user_id
  * @property string|null $remarks
  * @property string|null $order_date
  * @property \Illuminate\Support\Carbon|null $created_at

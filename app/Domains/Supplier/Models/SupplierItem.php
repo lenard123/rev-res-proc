@@ -10,14 +10,17 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Summary of SupplierItem
  *
- * @property int $item_id
- * @property int $supplier_id
- * @property string $status
  * @property int $id
+ * @property int $supplier_id
+ * @property int $item_id
+ * @property string $status
  * @property string|null $notes
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Domains\Supplier\Models\SupplierItemOffer|null $defaultOffer
  * @property-read Item $item
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Domains\Supplier\Models\SupplierItemOffer> $offers
+ * @property-read int|null $offers_count
  * @property-read \App\Domains\Supplier\Models\Supplier $supplier
  * @method static \App\Domains\Supplier\Factories\SupplierItemFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SupplierItem newModelQuery()
@@ -41,6 +44,16 @@ class SupplierItem extends Model
     public function supplier()
     {
         return $this->belongsTo(Supplier::class);
+    }
+
+    public function offers()
+    {
+        return $this->hasMany(SupplierItemOffer::class);
+    }
+
+    public function defaultOffer()
+    {
+        return $this->hasOne(SupplierItemOffer::class)->ofMany('is_default', 'MAX');
     }
 
     public function item()

@@ -5,6 +5,7 @@ namespace Tests\Unit\Domains\Procurement\Actions;
 use App\Domains\Catalog\Models\Item;
 use App\Domains\Core\Exceptions\ConflictException;
 use App\Domains\Procurement\Actions\SelectPurchaseRequestItemSupplierAction;
+use App\Domains\Procurement\Models\PurchaseRequest;
 use App\Domains\Procurement\Models\PurchaseRequestItem;
 use App\Domains\Supplier\Models\SupplierItemOffer;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -21,6 +22,7 @@ class SelectPurchaseRequestItemSupplierActionTest extends TestCase
         $item = Item::factory()->create();
 
         $purchaseRequestItem = PurchaseRequestItem::factory()
+            ->for(PurchaseRequest::factory()->processing())
             ->for($item)
             ->create();
 

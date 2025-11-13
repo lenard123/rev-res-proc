@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Summary of Attribute
  *
- * @property string $type
  * @property int $id
  * @property string $code
  * @property string $name
+ * @property string $type
  * @property int $is_unique
  * @property int $is_required
  * @property int $is_system

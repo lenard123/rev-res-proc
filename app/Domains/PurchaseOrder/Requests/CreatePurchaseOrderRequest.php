@@ -27,9 +27,8 @@ class CreatePurchaseOrderRequest extends FormRequest
             'remarks' => 'optional',
             'order_items' => 'required|array',
             'order_items.*.item_id' => 'required|exists:items,id',
-            'order_items.*.uom_id' => 'required|exists:unit_of_measures,id',
-            'order_items.*.supplier_item_offer_id' => 'nullable|exists:supplier_item_offers,id',
-            'order_items.*.unit_price' => 'required_without:supplier_item_offer_id|numeric|min:0',
+            'order_items.*.supplier_item_offer_id' => 'required|exists:supplier_item_offers,id',
+            'order_items.*.purchase_request_item_id' => 'required_if:purchase_request_id|exists:supplier_item_offers,id',
             'order_items.*.remarks' => 'optional',
             'order_items.*.quantity_ordered' => 'required|numeric|min:1',
         ];

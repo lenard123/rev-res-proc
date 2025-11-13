@@ -25,6 +25,11 @@ class PurchaseRequestFactory extends Factory
         ];
     }
 
+    public function processing()
+    {
+        return $this->state(['status' => PurchaseRequestStatus::PROCESSING]);
+    }
+
     public function withItems(int $count = 3)
     {
         return $this->afterCreating(function (PurchaseRequest $purchaseRequest) use ($count) {

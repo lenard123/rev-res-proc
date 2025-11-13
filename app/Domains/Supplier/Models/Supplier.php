@@ -15,6 +15,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Item> $items
  * @property-read int|null $items_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Domains\Supplier\Models\SupplierItem> $supplierItems
+ * @property-read int|null $supplier_items_count
  * @method static \App\Domains\Supplier\Factories\SupplierFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier newQuery()

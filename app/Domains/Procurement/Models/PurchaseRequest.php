@@ -13,13 +13,13 @@ use Illuminate\Database\Eloquent\Model;
  * Summary of PurchaseRequest
  *
  * @property int $id
- * @property mixed $created_at
- * @property PurchaseRequestStatus $status
- * @property PurchaseRequestOrderStatus $order_status
  * @property int $user_id
+ * @property PurchaseRequestStatus $status
  * @property string|null $remarks
  * @property string|null $approved_at
+ * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property PurchaseRequestOrderStatus $order_status
  * @property-read string $transaction_no
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Domains\Procurement\Models\PurchaseRequestItem> $purchaseRequestItems
  * @property-read int|null $purchase_request_items_count

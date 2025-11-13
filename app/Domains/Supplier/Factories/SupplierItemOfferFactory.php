@@ -19,11 +19,16 @@ class SupplierItemOfferFactory extends Factory
             'supplier_item_id' => SupplierItem::factory(),
             'uom_id' => 1,
             'last_quoted_price' => 250,
-            'is_default' => 1,
+            'is_default' => false,
             'status' => SupplierItemOffer::STATUS_ACTIVE,
             'currency' => 'PHP',
             'conversion_factor_to_item_uom' => 1,
         ];
+    }
+
+    public function default()
+    {
+        return $this->state(['is_default' => true]);
     }
 
     public function forItem(Item $item)

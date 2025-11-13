@@ -10,21 +10,21 @@ use Illuminate\Database\Eloquent\Model;
  * Summary of SupplierItemOffer
  *
  * @property int $id
- * @property int $uom_id
- * @property float $last_quoted_price
- * @property SupplierItem $supplierItem
- * @property string $status
  * @property int $supplier_item_id
+ * @property int $uom_id This is the supplier's sell unit for THIS offer
  * @property string|null $supplier_sku The supplier's internal SKU / part number.
  * @property string|null $description_override Sometimes your catalog name is "Polypropylene Container 32L" but vendor calls it "STORAGE BIN GRAY 32L HD". You want to store how THEY label it.
  * @property string $conversion_factor_to_item_uom how many of the item's base UOM are in 1 of this offer's UOM
+ * @property string $last_quoted_price Most recent agreed or quoted unit price.
  * @property string $currency
  * @property string $min_order_qty
- * @property int $is_default
+ * @property bool $is_default
+ * @property string $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Domains\Supplier\Models\SupplierItemOfferPrice> $prices
  * @property-read int|null $prices_count
+ * @property-read \App\Domains\Supplier\Models\SupplierItem $supplierItem
  * @method static \App\Domains\Supplier\Factories\SupplierItemOfferFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SupplierItemOffer newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SupplierItemOffer newQuery()
@@ -47,6 +47,10 @@ use Illuminate\Database\Eloquent\Model;
 class SupplierItemOffer extends Model
 {
     use HasFactory;
+
+    protected $casts = [
+        'is_default' => 'boolean',
+    ];
 
     public const STATUS_ACTIVE = 'active';
 

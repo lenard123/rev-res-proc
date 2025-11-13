@@ -5,11 +5,11 @@ namespace App\Domains\PurchaseOrder\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property ?int $supplier_item_offer_id This is only supplemental, the supplier id on purchase_order is the one will be used
  * @property int $id
  * @property int $purchase_order_id
  * @property int $item_id
  * @property int $uom_id
+ * @property int|null $supplier_item_offer_id
  * @property string $quantity_ordered
  * @property string $unit_price
  * @property string $discount_amount

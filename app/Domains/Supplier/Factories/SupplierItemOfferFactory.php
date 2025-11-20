@@ -2,6 +2,7 @@
 
 namespace App\Domains\Supplier\Factories;
 
+use App\Domains\Catalog\Factories\ItemFactory;
 use App\Domains\Catalog\Models\Item;
 use App\Domains\Supplier\Models\Supplier;
 use App\Domains\Supplier\Models\SupplierItem;
@@ -31,7 +32,12 @@ class SupplierItemOfferFactory extends Factory
         return $this->state(['is_default' => true]);
     }
 
-    public function forItem(Item $item)
+    /**
+     * Summary of forItem
+     * @param Item|ItemFactory $item
+     * @return SupplierItemOfferFactory
+     */
+    public function forItem(mixed $item)
     {
         return $this->state([
             'supplier_item_id' => SupplierItem::factory()->for($item)

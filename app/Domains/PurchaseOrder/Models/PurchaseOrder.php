@@ -5,6 +5,9 @@ namespace App\Domains\PurchaseOrder\Models;
 use App\Domains\PurchaseOrder\Enums\PurchaseOrderFulfillmentStatus;
 use App\Domains\PurchaseOrder\Enums\PurchaseOrderPaymentStatus;
 use App\Domains\PurchaseOrder\Enums\PurchaseOrderStatus;
+use App\Domains\PurchaseOrder\Factories\PurchaseOrderFactory;
+use Illuminate\Database\Eloquent\Attributes\UseFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -37,10 +40,14 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PurchaseOrder whereSupplierId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PurchaseOrder whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PurchaseOrder whereUserId($value)
+ * @method static \App\Domains\PurchaseOrder\Factories\PurchaseOrderFactory factory($count = null, $state = [])
  * @mixin \Eloquent
  */
+#[UseFactory(PurchaseOrderFactory::class)]
 class PurchaseOrder extends Model
 {
+    use HasFactory;
+
     protected $casts = [
         'status' => PurchaseOrderStatus::class,
         'fulfillment_status' => PurchaseOrderFulfillmentStatus::class,

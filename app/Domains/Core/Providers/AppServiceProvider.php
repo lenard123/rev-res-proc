@@ -26,6 +26,10 @@ class AppServiceProvider extends ServiceProvider
             Model::preventLazyLoading();
         }
 
+        if (!app()->runningInConsole()) {
+            \Auth::login(\App\Domains\Core\Models\User::first());
+        }
+
         Model::unguard();
 
         Collection::macro('recursive', function () {

@@ -14,6 +14,11 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('/attributes', [AttributeController::class, 'store']);
     
         Route::post('/items', [ItemController::class, 'store']);
+        Route::get('/items', [ItemController::class, 'index']);
+    });
+
+    Route::group(['prefix' => '/attribute'], function () {
+        // Route::get('/attribute-families', [AttributeController::class, 'store']);
     });
 
     Route::group(['prefix' => '/supplier'], function () {

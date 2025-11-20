@@ -14,7 +14,8 @@ class FeatureSeeder extends Seeder
     public function run(): void
     {
         $features = [
-            ['key' => 'procurement:pr_approval', 'name' => 'Purchase Request Approval']
+            ['key' => 'procurement:pr_approval', 'name' => 'Purchase Request Approval'],
+            ['key' => 'purchase_order:approval', 'name' => 'Purchase Order Approval'],
         ];
 
         Feature::upsert(

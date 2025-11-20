@@ -2,6 +2,11 @@
 
 namespace App\Domains\PurchaseOrder\Models;
 
+use App\Domains\Catalog\Models\Item;
+use App\Domains\PurchaseOrder\Factories\PurchaseOrderItemFactory;
+use App\Domains\Supplier\Models\SupplierItemOffer;
+use Illuminate\Database\Eloquent\Attributes\UseFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -34,7 +39,23 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PurchaseOrderItem whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class PurchaseOrderItem extends Model
+#[UseFactory(PurchaseOrderItemFactory::class)]
+ class PurchaseOrderItem extends Model
 {
+    use HasFactory;
 
+    public function item()
+    {
+        return $this->belongsTo(Item::class);
+    }
+
+    public function supplierItemOffer()
+    {
+        return $this->belongsTo(SupplierItemOffer::class);
+    }
+
+    public function purchaseOrder()
+    {
+        return $this->belongsTo(PurchaseOrder::class);
+    }
 }

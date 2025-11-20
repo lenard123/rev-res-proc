@@ -6,6 +6,7 @@ use App\Domains\Core\Controllers\Controller;
 use App\Domains\PurchaseOrder\Actions\CreatePurchaseOrderAction;
 use App\Domains\PurchaseOrder\DTOs\CreatePurchaseOrderDTO;
 use App\Domains\PurchaseOrder\DTOs\CreatePurchaseOrderItemDTO;
+use App\Domains\PurchaseOrder\Models\PurchaseOrder;
 use App\Domains\PurchaseOrder\Requests\CreatePurchaseOrderRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -19,5 +20,10 @@ class PurchaseOrderController extends Controller
         $purchaseOrder = $action->handle($dto);
 
         return new JsonResource($purchaseOrder);
+    }
+
+    public function process(PurchaseOrder $purchaseOrder)
+    {
+
     }
 }

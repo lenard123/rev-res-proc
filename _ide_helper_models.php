@@ -275,9 +275,9 @@ namespace App\Domains\Procurement\Models{
  * @property string|null $remarks
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Domains\Catalog\Models\Item $item
+ * @property-read Item $item
  * @property-read \App\Domains\Procurement\Models\PurchaseRequest $purchaseRequest
- * @property-read \App\Domains\Supplier\Models\SupplierItemOffer|null $supplierItemOffer
+ * @property-read SupplierItemOffer|null $supplierItemOffer
  * @method static \App\Domains\Procurement\Factories\PurchaseRequestItemFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PurchaseRequestItem newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PurchaseRequestItem newQuery()
@@ -291,6 +291,7 @@ namespace App\Domains\Procurement\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PurchaseRequestItem whereSupplierItemOfferId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PurchaseRequestItem whereUomId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PurchaseRequestItem whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 	class PurchaseRequestItem extends \Eloquent {}
 }
@@ -326,6 +327,7 @@ namespace App\Domains\PurchaseOrder\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PurchaseOrder whereSupplierId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PurchaseOrder whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PurchaseOrder whereUserId($value)
+ * @method static \App\Domains\PurchaseOrder\Factories\PurchaseOrderFactory factory($count = null, $state = [])
  * @mixin \Eloquent
  */
 	class PurchaseOrder extends \Eloquent {}
@@ -361,6 +363,10 @@ namespace App\Domains\PurchaseOrder\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PurchaseOrderItem whereUomId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PurchaseOrderItem whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \App\Domains\Catalog\Models\Item $item
+ * @property-read \App\Domains\PurchaseOrder\Models\PurchaseOrder $purchaseOrder
+ * @property-read \App\Domains\Supplier\Models\SupplierItemOffer|null $supplierItemOffer
+ * @method static \App\Domains\PurchaseOrder\Factories\PurchaseOrderItemFactory factory($count = null, $state = [])
  */
 	class PurchaseOrderItem extends \Eloquent {}
 }

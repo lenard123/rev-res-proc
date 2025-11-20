@@ -20,15 +20,11 @@ class ProcessPurchaseRequestAction
             throw new ConflictException(__('procurement.only_draft_can_be_processed'));
         }
 
-        if (Feature::enabled('procurement:pr_approval')) {
-            $purchaseRequest->update([
-                'status' => PurchaseRequestStatus::FOR_APPROVAL
-            ]);
-        } else {
-            $purchaseRequest->update([
-                'status' => PurchaseRequestStatus::PROCESSING // Since there is no approval process, we are directly moving to preparing
-            ]);
-        }
+        $purchaseRequest->update([
+            'status' => Feature::enabled('procurement:pr_approval')
+                ? PurchaseRequestStatus::FOR_APPROVAL
+                : PurchaseRequestStatus::PROCESSING
+        ]);
 
         event(new PurchaseRequestProcessed());
 

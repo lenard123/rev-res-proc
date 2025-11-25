@@ -31,8 +31,8 @@ class CreateItemRequest extends FormRequest
                 Rule::requiredIf($this->input('type') == Item::TYPE_CONFIGURABLE),
                 'array'
             ],
-            'configurable_attributes_keys.*' => 'exists:attributes,code',
             'configurable_attributes.*.*' => 'exists:attribute_options,id',
+            'configurable_attributes_keys.*' => 'exists:attributes,code', // derived from the configurable_attributes
         ];
     }
 

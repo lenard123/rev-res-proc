@@ -1,6 +1,7 @@
 <?php
 
 use App\Domains\Attribute\Controllers\AttributeController;
+use App\Domains\Attribute\Controllers\AttributeFamilyController;
 use App\Domains\Catalog\Controllers\ItemController;
 use App\Domains\Procurement\Controllers\PurchaseRequestController;
 use App\Domains\Procurement\Controllers\PurchaseRequestItemController;
@@ -18,7 +19,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     });
 
     Route::group(['prefix' => '/attribute'], function () {
-        // Route::get('/attribute-families', [AttributeController::class, 'store']);
+        Route::get('/attribute-families', [AttributeFamilyController::class, 'index']);
+        Route::get('/attribute-families/{attribute_family}', [AttributeFamilyController::class, 'show']);
     });
 
     Route::group(['prefix' => '/supplier'], function () {

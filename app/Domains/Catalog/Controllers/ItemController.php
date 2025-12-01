@@ -21,7 +21,7 @@ class ItemController extends Controller
 
     public function show(Item $item)
     {
-        $item->load(['attributes', 'attributeFamily.groups.attributes']);
+        $item->load(['baseUom', 'attributeFamily', 'attributes.attribute']);
         return new ItemResource($item);
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Domains\Catalog\Models;
 
+use App\Domains\Attribute\Models\Attribute;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -12,6 +13,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property int|null $integer_value
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read Attribute $attribute
+ * @property-read mixed $value
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ItemAttribute newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ItemAttribute newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ItemAttribute query()
@@ -26,5 +29,16 @@ use Illuminate\Database\Eloquent\Model;
  */
 class ItemAttribute extends Model
 {
+    public function getValueAttribute()
+    {
+        return match($this->attribute->type) {
+            Attribute::TYPE_TEXT => $this->text_value,
+            Attribute::TYPE_SELECT => $this->integer_value,
+        };
+    }
 
+    public function attribute()
+    {
+        return $this->belongsTo(Attribute::class);
+    }
 }

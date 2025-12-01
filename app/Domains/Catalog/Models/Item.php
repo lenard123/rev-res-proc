@@ -4,6 +4,7 @@ namespace App\Domains\Catalog\Models;
 
 use App\Domains\Attribute\Models\AttributeFamily;
 use App\Domains\Catalog\Factories\ItemFactory;
+use App\Domains\Core\Models\UnitOfMeasure;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,6 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read AttributeFamily $attributeFamily
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Domains\Catalog\Models\ItemAttribute> $attributes
  * @property-read int|null $attributes_count
+ * @property-read UnitOfMeasure $baseUom
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Item> $variants
  * @property-read int|null $variants_count
  * @method static \App\Domains\Catalog\Factories\ItemFactory factory($count = null, $state = [])
@@ -47,6 +49,11 @@ class Item extends Model
     public function variants()
     {
         return $this->hasMany(Item::class, 'parent_id');
+    }
+
+    public function baseUom()
+    {
+        return $this->belongsTo(UnitOfMeasure::class, 'base_uom_id');
     }
 
     public function attributeFamily()

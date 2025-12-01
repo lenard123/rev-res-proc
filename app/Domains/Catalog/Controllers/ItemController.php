@@ -2,7 +2,7 @@
 
 namespace App\Domains\Catalog\Controllers;
 
-use App\Domains\Attribute\Actions\CreateItemAction;
+use App\Domains\Catalog\Actions\CreateItemAction;
 use App\Domains\Catalog\DTOs\CreateItemDTO;
 use App\Domains\Catalog\Models\Item;
 use App\Domains\Catalog\Requests\CreateItemRequest;

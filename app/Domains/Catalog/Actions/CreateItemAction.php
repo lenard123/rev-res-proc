@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domains\Attribute\Actions;
+namespace App\Domains\Catalog\Actions;
 
 use App\Domains\Attribute\DTOs\AttributeDTO;
 use App\Domains\Catalog\Actions\SaveItemAttributeAction;
@@ -92,6 +92,7 @@ class CreateItemAction
 
     public function handle(CreateItemDTO $item_data): Item
     {
-        return DB::transaction(fn() => self::createItem($item_data));
+        return DB::transaction(fn() => $this->createItem($item_data));
     }
 }
+

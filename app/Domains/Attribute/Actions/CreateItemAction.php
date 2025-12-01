@@ -60,7 +60,7 @@ class CreateItemAction
             'sku' => $item_data->sku,
             'type' => $item_data->type,
             'parent_id' => $item_data->parent_id,
-            'base_uom_id' => UnitOfMeasure::getID(UnitOfMeasure::CODE_PC),
+            'base_uom_id' => $item_data->base_uom_id,
         ]);
 
         foreach ($item_data->attributes as $attribute) {

@@ -3,6 +3,7 @@
 use App\Domains\Attribute\Controllers\AttributeController;
 use App\Domains\Attribute\Controllers\AttributeFamilyController;
 use App\Domains\Catalog\Controllers\ItemController;
+use App\Domains\Core\Controllers\UnitOfMeasureController;
 use App\Domains\Procurement\Controllers\PurchaseRequestController;
 use App\Domains\Procurement\Controllers\PurchaseRequestItemController;
 use App\Domains\Supplier\Controllers\SupplierController;
@@ -14,6 +15,10 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => 'auth:sanctum'], function () {
 
     AsyncValidation::routes('/async-validation/check');
+
+    Route::group(['prefix' => '/core'], function () {
+        Route::get('/uoms', [UnitOfMeasureController::class, 'index']);
+    });
 
     Route::group(['prefix' => '/catalog'], function () {
         Route::post('/attributes', [AttributeController::class, 'store']);

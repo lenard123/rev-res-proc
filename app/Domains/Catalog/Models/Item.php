@@ -2,6 +2,7 @@
 
 namespace App\Domains\Catalog\Models;
 
+use App\Domains\Attribute\Models\AttributeFamily;
 use App\Domains\Catalog\Factories\ItemFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $type
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read AttributeFamily $attributeFamily
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Domains\Catalog\Models\ItemAttribute> $attributes
  * @property-read int|null $attributes_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Item> $variants
@@ -45,6 +47,11 @@ class Item extends Model
     public function variants()
     {
         return $this->hasMany(Item::class, 'parent_id');
+    }
+
+    public function attributeFamily()
+    {
+        return $this->belongsTo(AttributeFamily::class);
     }
 
     public function attributes()

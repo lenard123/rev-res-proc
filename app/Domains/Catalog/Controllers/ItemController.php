@@ -6,10 +6,9 @@ use App\Domains\Attribute\Actions\CreateItemAction;
 use App\Domains\Catalog\DTOs\CreateItemDTO;
 use App\Domains\Catalog\Models\Item;
 use App\Domains\Catalog\Requests\CreateItemRequest;
+use App\Domains\Catalog\Resources\ItemResource;
 use App\Domains\Core\Controllers\Controller;
-use App\Domains\Supplier\Models\SupplierItemOffer;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
 
 class ItemController extends Controller
 {
@@ -17,15 +16,21 @@ class ItemController extends Controller
     {
         $item_data = CreateItemDTO::fromArray($request->validated());
         $item = $action->handle($item_data);
-        return new JsonResource($item);
+        return new ItemResource($item);
     }
 
+    public function show(Item $item)
+    {
+        $item->load(['attributes', 'attributeFamily.groups.attributes']);
+        return new ItemResource($item);
+    }
 
     public function index(Request $request)
     {
         $items = Item::query()
+            ->when($request->has('sku'), fn($q) => $q->where('sku', $request->get('sku')))
             ->get();
 
-        return JsonResource::collection($items);
+        return ItemResource::collection($items);
     }
 }

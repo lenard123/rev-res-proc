@@ -2,6 +2,8 @@
 
 namespace App\Domains\Core\Providers;
 
+use App\Domains\Catalog\AsyncValidators\UniqueSkuValidator;
+use Enterprisesuite\AsyncValidation\Facades\AsyncValidation;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
@@ -44,5 +46,7 @@ class AppServiceProvider extends ServiceProvider
                 return $value;  
             });
         });
+
+        AsyncValidation::register('unique_sku', UniqueSkuValidator::class);
     }
 }

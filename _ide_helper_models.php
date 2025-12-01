@@ -146,6 +146,7 @@ namespace App\Domains\Catalog\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Item whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Item whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \App\Domains\Attribute\Models\AttributeFamily $attributeFamily
  */
 	class Item extends \Eloquent {}
 }

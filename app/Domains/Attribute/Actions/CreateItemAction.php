@@ -81,7 +81,8 @@ class CreateItemAction
                     $item->id,
                     $item_data->attribute_family_id,
                     $combination,
-                    []
+                    [],
+                    $item_data->base_uom_id
                 ));
             }
         }

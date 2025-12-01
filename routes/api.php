@@ -8,14 +8,19 @@ use App\Domains\Procurement\Controllers\PurchaseRequestItemController;
 use App\Domains\Supplier\Controllers\SupplierController;
 use App\Domains\Supplier\Controllers\SupplierItemController;
 use App\Domains\Supplier\Controllers\SupplierItemOfferController;
+use Enterprisesuite\AsyncValidation\Facades\AsyncValidation;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
+
+    AsyncValidation::routes('/async-validation/check');
+
     Route::group(['prefix' => '/catalog'], function () {
         Route::post('/attributes', [AttributeController::class, 'store']);
     
         Route::post('/items', [ItemController::class, 'store']);
         Route::get('/items', [ItemController::class, 'index']);
+        Route::get('/items/{item}', [ItemController::class, 'show']);
     });
 
     Route::group(['prefix' => '/attribute'], function () {

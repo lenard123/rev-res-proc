@@ -7,6 +7,7 @@ use App\Domains\Attribute\Models\AttributeFamily;
 use App\Domains\Attribute\Models\AttributeOption;
 use App\Domains\Catalog\Models\Item;
 use App\Domains\Catalog\Models\ItemAttribute;
+use App\Domains\Core\Models\UnitOfMeasure;
 use App\Domains\Core\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
@@ -31,6 +32,7 @@ class ItemControllerTest extends TestCase
             'sku' => $sku,
             'attribute_family_id' => AttributeFamily::value('id'),
             'type' => Item::TYPE_SIMPLE,
+            'base_uom_id' => UnitOfMeasure::getID(UnitOfMeasure::CODE_PC),
         ]);
 
         $response->assertStatus(201);
@@ -54,6 +56,7 @@ class ItemControllerTest extends TestCase
             'sku' => $sku,
             'attribute_family_id' => AttributeFamily::value('id'),
             'type' => Item::TYPE_CONFIGURABLE,
+            'base_uom_id' => UnitOfMeasure::getID(UnitOfMeasure::CODE_PC),
             'configurable_attributes' => [
                 Attribute::CODE_COLOR => $color->options()->whereIn('name', ['Red', 'Black'])->pluck('id')->toArray(),
                 Attribute::CODE_SIZE => $size->options()->whereIn('name', ['S', 'M', 'L'])->pluck('id')->toArray(),

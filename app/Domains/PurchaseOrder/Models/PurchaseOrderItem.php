@@ -22,6 +22,10 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $remarks
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read Item $item
+ * @property-read \App\Domains\PurchaseOrder\Models\PurchaseOrder $purchaseOrder
+ * @property-read SupplierItemOffer|null $supplierItemOffer
+ * @method static \App\Domains\PurchaseOrder\Factories\PurchaseOrderItemFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PurchaseOrderItem newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PurchaseOrderItem newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PurchaseOrderItem query()

@@ -26,6 +26,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Domains\PurchaseOrder\Models\PurchaseOrderItem> $purchaseOrderItems
  * @property-read int|null $purchase_order_items_count
+ * @method static \App\Domains\PurchaseOrder\Factories\PurchaseOrderFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PurchaseOrder newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PurchaseOrder newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PurchaseOrder query()
@@ -40,7 +41,6 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PurchaseOrder whereSupplierId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PurchaseOrder whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PurchaseOrder whereUserId($value)
- * @method static \App\Domains\PurchaseOrder\Factories\PurchaseOrderFactory factory($count = null, $state = [])
  * @mixin \Eloquent
  */
 #[UseFactory(PurchaseOrderFactory::class)]

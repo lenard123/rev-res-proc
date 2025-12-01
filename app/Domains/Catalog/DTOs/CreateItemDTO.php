@@ -5,6 +5,7 @@ namespace App\Domains\Catalog\DTOs;
 use App\Domains\Attribute\DTOs\AttributeDTO;
 use App\Domains\Attribute\Models\Attribute;
 use App\Domains\Catalog\Models\Item;
+use App\Domains\Core\Models\UnitOfMeasure;
 
 class CreateItemDTO
 {
@@ -25,6 +26,7 @@ class CreateItemDTO
         public int $attribute_family_id,
         public array $attributes,
         public array $configurable_attributes,
+        public int $base_uom_id,
     ) {
         // Attach SKU to attributes if it doesnt exists        
         if (collect($attributes)->every(fn($attribute) => $attribute->code !== Attribute::CODE_SKU)) {
@@ -52,6 +54,7 @@ class CreateItemDTO
             data_get($data, 'attribute_family_id'),
             $attributes_dto,
             data_get($data, 'configurable_attributes', []),
+            data_get($data, 'base_uom_id', UnitOfMeasure::getID(UnitOfMeasure::CODE_PC)),
         );
     }
 }

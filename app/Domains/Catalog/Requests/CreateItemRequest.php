@@ -26,11 +26,9 @@ class CreateItemRequest extends FormRequest
         return [
             'sku' => 'required|unique:items,sku',
             'attribute_family_id' => 'required|exists:attribute_families,id',
+            'base_uom_id' => 'required|exists:unit_of_measures,id',
             'type' => 'required',
-            'configurable_attributes' => [
-                Rule::requiredIf($this->input('type') == Item::TYPE_CONFIGURABLE),
-                'array'
-            ],
+            'configurable_attributes' => 'array',
             'configurable_attributes.*.*' => 'exists:attribute_options,id',
             'configurable_attributes_keys.*' => 'exists:attributes,code', // derived from the configurable_attributes
         ];

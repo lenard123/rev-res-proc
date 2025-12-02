@@ -10,11 +10,11 @@ class UniqueSkuValidator implements AsyncValidatorInterface
 {
     public function validate(array $data): AsyncValidationResult
     {
-        $skip = data_get($data, 'skip', false);
+        $ignore = data_get($data, 'ignore', false);
         $sku = data_get($data, 'sku');
         $exists = Item::query()
             ->where('sku', $sku)
-            ->when($skip, fn($q) => $q->where('id', '!=', $skip))
+            ->when($ignore, fn($q) => $q->where('id', '!=', $ignore))
             ->exists();
 
         if ($exists) {

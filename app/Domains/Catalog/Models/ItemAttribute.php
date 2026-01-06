@@ -31,10 +31,7 @@ class ItemAttribute extends Model
 {
     public function getValueAttribute()
     {
-        return match($this->attribute->type) {
-            Attribute::TYPE_TEXT => $this->text_value,
-            Attribute::TYPE_SELECT => $this->integer_value,
-        };
+        return data_get($this->attributes,$this->attribute->getValuesColumn());
     }
 
     public function attribute()

@@ -1,5 +1,6 @@
 <?php
 
+use App\Domains\Catalog\Exceptions\InvalidAttributeValueException;
 use App\Domains\Core\Exceptions\ConflictException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -18,5 +19,9 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->render(function (ConflictException $conflictException) {
             return abort(409, $conflictException->getMessage());
+        });
+
+        $exceptions->render(function (InvalidAttributeValueException $invalidAttributeValueException) {
+            return abort(422, $invalidAttributeValueException->getMessage());
         });
     })->create();

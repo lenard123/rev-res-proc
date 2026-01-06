@@ -14,7 +14,7 @@ class SaveItemAttributeAction
             throw new InvalidAttributeValueException('Value is required');
         }
         
-        if ($attribute->is_unique && ItemAttribute::where('item_id', '!=', $item_id)->where('attribute_id', $attribute->id)->exists()) {
+        if ($attribute->is_unique && ItemAttribute::where('item_id', '!=', $item_id)->where('attribute_id', $attribute->id)->where($attribute->getValuesColumn(), $value)->exists()) {
             throw new InvalidAttributeValueException('Value is already taken');
         }
     }

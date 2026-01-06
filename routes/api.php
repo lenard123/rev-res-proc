@@ -26,6 +26,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('/items', [ItemController::class, 'store']);
         Route::get('/items', [ItemController::class, 'index']);
         Route::get('/items/{item}', [ItemController::class, 'show']);
+        Route::put('/items/{item}', [ItemController::class, 'update']);
     });
 
     Route::group(['prefix' => '/attribute'], function () {
